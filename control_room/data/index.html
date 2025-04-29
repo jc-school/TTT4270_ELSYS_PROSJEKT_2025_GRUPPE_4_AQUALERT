@@ -1,0 +1,169 @@
+<!-- index.html START -->
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <!-- ========================================================================== -->
+    <!-- ==                         Meta Information                             == -->
+    <!-- ========================================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aqualert</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- ========================================================================== -->
+    <!-- ==                       Stylesheets & Scripts                          == -->
+    <!-- ========================================================================== -->
+    <link rel="stylesheet" href="style.css">
+    <script src="chart.umd.js" defer></script> <!-- Charting Library -->
+    <script src="script.js" defer></script>    <!-- Main Application Logic -->
+
+</head>
+<body>
+    <!-- ========================================================================== -->
+    <!-- ==                            Header                                    == -->
+    <!-- ========================================================================== -->
+    <header>
+        <h1>Aqualert</h1>
+    </header>
+
+    <!-- ========================================================================== -->
+    <!-- ==                         Main Content Area                            == -->
+    <!-- ========================================================================== -->
+    <main>
+
+        <!-- Section: Status Card START -->
+        <section class="status-card">
+            <!-- <h2>Status</h2> --> <!-- Optional Title -->
+            <dl class="status-item">
+                <div>
+                    <dt>Status:</dt>
+                    <dd><span id="status" aria-live="polite" class="status-connecting">Kobler til...</span></dd>
+                     <!-- Status classes (e.g., status-connected, status-error) added via JavaScript -->
+                </div>
+            </dl>
+        </section>
+        <!-- Section: Status Card END -->
+
+        <!-- Section: Main Light Control Card START -->
+        <section class="light-control-card">
+            <h2>Hovedlys</h2>
+
+            <!-- Control Group: Slider, Value Input, On/Off Buttons START -->
+            <div class="control-group">
+                <label for="mainSlider">Ønsket Lysstyrke:</label>
+                <div class="slider-container">
+                    <span class="brightness-icon" id="mainBrightnessIcon" aria-hidden="true">🌑</span>
+                    <input type="range" id="mainSlider" min="0" max="100" value="80" aria-label="Hovedlys lysstyrke">
+                    <input type="number" class="brightness-value desired" id="mainDesiredValue" min="0" max="100" step="1" value="80" aria-label="Hovedlys ønsket verdi">
+                    <span>%</span>
+                </div>
+                <div class="button-group">
+                    <button class="btn-on" data-target="main" title="Sett til sist brukte lysstyrke">PÅ</button>
+                    <button class="btn-off" data-target="main" title="Sett lysstyrke til 0%">AV</button>
+                </div>
+            </div>
+            <!-- Control Group: Slider, Value Input, On/Off Buttons END -->
+
+            <!-- Readings Group: Toggle, Numeric, Graph START -->
+            <div class="readings-group">
+                <div class="view-toggle">
+                     <button class="btn-toggle-view" data-target="main">Vis Graf</button>
+                </div>
+                <!-- Numeric Readings View -->
+                <div class="numeric-readings active" id="mainNumericReadings">
+                     <dl>
+                        <div><dt>Reell Lysstyrke:</dt><dd><span id="mainActualValue">0</span> %</dd></div>
+                        <div><dt>Strøm:</dt><dd><span id="mainCurrent">0.00</span> A</dd></div>
+                        <!-- <div><dt>Spenning:</dt><dd><span id="mainVoltage">0.00</span> V</dd></div> --> <!-- Uncomment if voltage is added -->
+                    </dl>
+                </div>
+                <!-- Graph Readings View -->
+                <div class="graph-readings" id="mainGraphReadings">
+                    <canvas id="mainChart"></canvas>
+                </div>
+            </div>
+            <!-- Readings Group: Toggle, Numeric, Graph END -->
+
+        </section>
+        <!-- Section: Main Light Control Card END -->
+
+        <!-- Section: Emergency Light Control Card START -->
+        <section class="light-control-card emergency-light-card"> <!-- Added emergency-light-card class -->
+            <h2>Nødlys</h2>
+
+             <!-- Control Group: Slider, Value Input, On/Off Buttons START -->
+             <div class="control-group">
+                <label for="emergencySlider">Ønsket Lysstyrke:</label>
+                 <div class="slider-container">
+                    <span class="brightness-icon" id="emergencyBrightnessIcon" aria-hidden="true">🌑</span>
+                    <input type="range" id="emergencySlider" min="0" max="100" value="80" aria-label="Nødlys lysstyrke">
+                    <input type="number" class="brightness-value desired" id="emergencyDesiredValue" min="0" max="100" step="1" value="80" aria-label="Nødlys ønsket verdi">
+                    <span>%</span>
+                </div>
+                 <div class="button-group">
+                     <button class="btn-on" data-target="emergency" title="Sett til sist brukte lysstyrke">PÅ</button>
+                     <button class="btn-off" data-target="emergency" title="Sett lysstyrke til 0%">AV</button>
+                </div>
+            </div>
+            <!-- Control Group: Slider, Value Input, On/Off Buttons END -->
+
+             <!-- Readings Group: Toggle, Numeric, Graph START -->
+             <div class="readings-group">
+                 <div class="view-toggle">
+                     <button class="btn-toggle-view" data-target="emergency">Vis Graf</button>
+                 </div>
+                 <!-- Numeric Readings View -->
+                <div class="numeric-readings active" id="emergencyNumericReadings">
+                     <dl>
+                        <div><dt>Reell Lysstyrke:</dt><dd><span id="emergencyActualValue">0</span> %</dd></div>
+                        <!-- <div><dt>Strøm:</dt><dd><span id="emergencyCurrent">0.00</span> A</dd></div> --> <!-- Uncomment if current is added -->
+                        <!-- <div><dt>Spenning:</dt><dd><span id="emergencyVoltage">0.00</span> V</dd></div> --> <!-- Uncomment if voltage is added -->
+                    </dl>
+                </div>
+                <!-- Graph Readings View -->
+                <div class="graph-readings" id="emergencyGraphReadings">
+                    <canvas id="emergencyChart"></canvas>
+                </div>
+            </div>
+            <!-- Readings Group: Toggle, Numeric, Graph END -->
+
+        </section>
+        <!-- Section: Emergency Light Control Card END -->
+
+        <!-- Section: Settings Card START -->
+        <section class="settings-card">
+            <h2>Innstillinger</h2>
+
+            <!-- Setting Item: Sync Toggle START -->
+            <div class="setting-item">
+                 <div class="sync-toggle-container">
+                      <input type="checkbox" id="syncEmergencyLight" checked>
+                      <label for="syncEmergencyLight">Synkroniser Nødlys med Hovedlys</label>
+                 </div>
+            </div>
+            <!-- Setting Item: Sync Toggle END -->
+
+            <!-- Setting Item: Ramp Rate (Example, currently commented out) START -->
+            <!-- <div class="setting-item">
+                <label for="rampRateInput">Lysstyrkehastighet (% per sekund):</label>
+                <input type="number" id="rampRateInput" step="0.1" min="0.1" value="5.0">
+            </div> -->
+            <!-- Setting Item: Ramp Rate END -->
+
+        </section>
+        <!-- Section: Settings Card END -->
+
+    </main>
+
+    <!-- ========================================================================== -->
+    <!-- ==                            Footer (Optional)                         == -->
+    <!-- ========================================================================== -->
+    <!-- <footer>
+        <p>Aqualert</p>
+    </footer> -->
+
+</body>
+</html>
+
+<!-- index.html END -->

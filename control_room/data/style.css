@@ -1,0 +1,452 @@
+/* style.css START */
+
+/* ========================================================================== */
+/* ==                       CSS Variables (Theme)                          == */
+/* ========================================================================== */
+:root {
+    /* Color Palette */
+    --primary-color: #005f73;         /* Dark Teal */
+    --secondary-color: #0a9396;       /* Medium Teal */
+    --accent-color-light: #94d2bd;    /* Light Mint Green */
+    --accent-color-dark: #001219;     /* Very Dark Blue/Black */
+    --background-color: #f4f7f6;      /* Light Grayish Background */
+    --card-background: #ffffff;       /* White for cards */
+    --text-color: #333;               /* Dark Gray for standard text */
+    --text-light: #f8f9fa;            /* Very Light Gray/White for text on dark backgrounds */
+    --border-color: #dee2e6;          /* Light Gray for borders */
+    --danger-color: #dc3545;          /* Standard Red */
+    --danger-hover: #c82333;         /* Darker Red */
+    --success-color: #28a745;         /* Standard Green */
+    --success-hover: #218838;        /* Darker Green */
+    --info-color: #0077b6;            /* Standard Blue */
+    --info-hover: #023e8a;           /* Darker Blue */
+    --warning-color: orange;          /* Standard Orange */
+    --footer-bg: #adb5bd;            /* Medium Gray for footer */
+
+    /* Spacing & Sizing */
+    --base-spacing: 1rem;             /* Base unit for padding/margins (usually 16px) */
+    --card-padding: 1.2rem;           /* Padding inside cards */
+    --border-radius: 8px;             /* Corner rounding */
+    --input-height: 40px;             /* Consistent height for inputs/buttons */
+
+    /* Typography */
+    --base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --base-line-height: 1.6;
+}
+
+/* ========================================================================== */
+/* ==                          Global Styles                               == */
+/* ========================================================================== */
+body {
+    font-family: var(--base-font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body takes at least full viewport height */
+    line-height: var(--base-line-height);
+}
+
+header {
+    color: var(--primary-color); /* Use primary color for text */
+    padding: calc(var(--base-spacing) * 0.6) var(--base-spacing);
+    text-align: center;
+    /* Optional: Add subtle border or shadow if needed */
+    /* border-bottom: 1px solid var(--border-color); */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700; /* Bold heading */
+    font-size: 1.8rem; /* Larger font size for main title */
+}
+
+main {
+    flex: 1; /* Allow main content to grow and push footer down */
+    padding: var(--base-spacing);
+    max-width: 1200px; /* Limit maximum width for large screens */
+    margin: var(--base-spacing) auto; /* Center content area */
+    width: 95%; /* Use most of the width on smaller screens */
+    display: grid;
+    gap: calc(var(--base-spacing) * 1.5); /* Gap between grid items (cards) */
+    grid-template-columns: 1fr; /* Default to single column layout */
+    align-items: start; /* Align cards to the top */
+    align-content: start; /* Pack cards towards the top */
+}
+
+/* ========================================================================== */
+/* ==                         Card Base Styles                             == */
+/* ========================================================================== */
+.light-control-card, .settings-card, .status-card {
+    background-color: var(--card-background);
+    padding: var(--card-padding);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Slightly more pronounced shadow */
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--base-spacing) * 1.2); /* Consistent internal gap between elements */
+}
+
+h2 { /* Card Titles */
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0; /* Remove bottom margin, rely on card gap */
+    border-bottom: 2px solid var(--accent-color-light);
+    padding-bottom: 0.5em;
+    font-size: 1.3rem;
+    font-weight: 600; /* Semi-bold */
+}
+
+label { /* Labels for controls */
+    font-weight: 600;
+    color: var(--secondary-color);
+    display: block; /* Make labels block elements for better spacing */
+    margin-bottom: 0.3em; /* Small space below label */
+}
+
+/* ========================================================================== */
+/* ==                    Control Group Styles (Inside Cards)               == */
+/* ========================================================================== */
+/* Contains slider, value input, buttons */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    /* Optional: Add border between control group and readings group */
+    /* border-bottom: 1px solid var(--border-color); */
+    /* padding-bottom: calc(var(--base-spacing) * 1.2); */
+}
+
+/* --- Slider Container --- */
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 0.8em; /* Space between icon, slider, number input, % sign */
+    flex-wrap: wrap; /* Allow wrapping on small screens if needed */
+}
+
+.brightness-icon {
+    font-size: 1.8rem; /* Adjust size as needed */
+    line-height: 1;
+    width: 1.5em; /* Fixed width for alignment */
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle; /* Align vertically with slider/text */
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+input[type="range"] { /* The slider itself */
+    flex-grow: 1; /* Allow slider to take available space */
+    min-width: 150px; /* Ensure minimum usable width */
+    height: 8px;      /* Thickness of the slider track */
+    cursor: pointer;
+    accent-color: var(--secondary-color); /* Color of the slider thumb and track */
+    vertical-align: middle;
+}
+
+input[type="number"].brightness-value.desired { /* Number input next to slider */
+    appearance: textfield; /* Remove default number input spinners */
+    -moz-appearance: textfield;
+    border: 1px solid #ced4da;
+    padding: 6px 10px; /* Adjust padding */
+    width: 70px; /* Fixed width */
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+/* Hide spinners in WebKit browsers (Chrome, Safari) */
+input[type="number"].brightness-value.desired::-webkit-outer-spin-button,
+input[type="number"].brightness-value.desired::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.slider-container > span:last-child { /* The '%' sign */
+    font-weight: normal;
+    color: #6c757d; /* Grayish text */
+    font-size: 1rem;
+    vertical-align: middle;
+    margin-left: -0.3em; /* Pull slightly closer to number input */
+}
+
+/* --- Button Group (ON/OFF) --- */
+.button-group {
+    display: flex;
+    gap: 0.8em;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+/* Base Button Styles (Applies to ON, OFF, Toggle View) */
+button, .btn-on, .btn-off, .btn-toggle-view {
+    padding: 10px 18px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    text-align: center;
+    flex-grow: 1; /* Allow buttons to share space */
+    min-width: 70px; /* Minimum button width */
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    height: var(--input-height); /* Match input height */
+    display: inline-flex; /* Use flex for centering content */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+}
+button:hover, .btn-on:hover, .btn-off:hover, .btn-toggle-view:hover {
+    /* Add subtle shadow on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+button:active, .btn-on:active, .btn-off:active, .btn-toggle-view:active {
+    transform: scale(0.98); /* Slight shrink effect on click */
+    box-shadow: none; /* Remove shadow on active */
+}
+
+/* Specific Button Styles */
+.btn-on { background-color: var(--success-color); color: var(--text-light); }
+.btn-on:hover { background-color: var(--success-hover); }
+
+.btn-off { background-color: var(--danger-color); color: var(--text-light); }
+.btn-off:hover { background-color: var(--danger-hover); }
+
+.btn-toggle-view { background-color: var(--info-color); color: var(--text-light); flex-grow: 0; } /* Don't allow toggle button to grow */
+.btn-toggle-view:hover { background-color: var(--info-hover); }
+
+
+/* ========================================================================== */
+/* ==                   Readings Group Styles (Inside Cards)               == */
+/* ========================================================================== */
+/* Contains toggle button, numeric readings, graph readings */
+.readings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    border-top: 1px solid var(--border-color); /* Separator line */
+    padding-top: calc(var(--base-spacing) * 1.2); /* Space above separator */
+}
+
+.view-toggle {
+    text-align: right; /* Position toggle button to the right */
+}
+
+/* Container for both numeric and graph views */
+.numeric-readings, .graph-readings {
+    background-color: #f8f9fa; /* Slightly off-white background */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--base-spacing);
+    min-height: 100px; /* Ensure minimum height */
+}
+
+/* --- Numeric Readings Styling (using DL, DT, DD) --- */
+.numeric-readings dl {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5em 1em; /* Row and column gap */
+    grid-template-columns: auto 1fr; /* Label column auto-width, Value column takes rest */
+    align-items: baseline; /* Align text baselines */
+}
+.numeric-readings dl div { /* Required for grid layout with DL */
+    display: contents;
+}
+.numeric-readings dt { /* Label (e.g., "Strøm:") */
+    font-weight: normal;
+    color: var(--secondary-color);
+    text-align: right;
+    padding-right: 0.5em;
+    font-size: 0.95rem;
+}
+.numeric-readings dd { /* Value (e.g., "1.23 A") */
+    margin: 0;
+    font-weight: bold;
+    font-family: monospace; /* Monospace font for numeric alignment */
+    font-size: 1.1rem;
+}
+.numeric-readings dd span { /* Ensure span inside DD behaves well */
+     min-width: 45px; /* Minimum width for alignment */
+     display: inline-block;
+     text-align: left;
+}
+
+/* --- Graph Readings Styling --- */
+.graph-readings {
+    display: none; /* Hide graph view by default */
+    height: 280px; /* Default height for the graph */
+    position: relative; /* Needed for Chart.js responsiveness */
+}
+.graph-readings canvas {
+    max-width: 100%; /* Ensure canvas doesn't overflow */
+}
+
+/* --- View Toggling Logic (Show/Hide) --- */
+.graph-readings.active, .numeric-readings.active {
+    display: block; /* Show the active view */
+}
+.numeric-readings:not(.active) { /* Hide numeric view when graph is active */
+    display: none;
+}
+
+
+/* ========================================================================== */
+/* ==                   Specific Section Styles                            == */
+/* ========================================================================== */
+
+/* --- Settings Card Specifics --- */
+.settings-card .setting-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+.settings-card .setting-item > label { /* Settings labels */
+    margin-bottom: 0; /* Remove bottom margin for inline alignment */
+    flex-shrink: 0; /* Prevent label from shrinking */
+}
+.settings-card .setting-item input[type="number"] { /* Specific input styling in settings */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90px; /* Adjust width as needed */
+    font-size: 1rem;
+    height: var(--input-height);
+}
+
+/* --- Status Card Specifics --- */
+.status-card dl { /* Using DL for status as well */
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5em 1em;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+}
+.status-card dl div { display: contents; }
+.status-card dt {
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-align: right;
+    padding-right: 0.5em;
+    font-size: 1rem;
+}
+.status-card dd {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+#status { /* The actual status text span */
+    font-weight: bold;
+    /* Color is set dynamically via JS using these classes */
+}
+.status-connected { color: var(--success-color); }
+.status-connecting { color: var(--warning-color); }
+.status-error { color: var(--danger-color); }
+
+/* ========================================================================== */
+/* ==               Emergency Light Sync Specific Styles                   == */
+/* ========================================================================== */
+.sync-toggle-container { /* Container for the checkbox and label */
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    background-color: #f0f3f5; /* Light background */
+    padding: 0.7em 1em;
+    border-radius: var(--border-radius);
+    border: 1px solid #ced4da;
+}
+.sync-toggle-container label { /* Label next to checkbox */
+    font-weight: normal; /* Less emphasis */
+    color: var(--text-color);
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.sync-toggle-container input[type="checkbox"] { /* The sync checkbox */
+    cursor: pointer;
+    accent-color: var(--secondary-color); /* Match theme */
+    transform: scale(1.15); /* Slightly larger checkbox */
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Styles applied to emergency card when sync is active */
+.emergency-light-card.emergency-sync-active .control-group > .slider-container,
+.emergency-light-card.emergency-sync-active .control-group > .button-group {
+    opacity: 0.65; /* Dim the controls visually */
+    /* pointer-events: none; */ /* Avoid using pointer-events; handle interaction logic in JS */
+    transition: opacity 0.3s ease-in-out;
+}
+/* Also dim the main label for the emergency control group */
+.emergency-light-card.emergency-sync-active .control-group > label {
+     opacity: 0.65;
+     transition: opacity 0.3s ease-in-out;
+}
+
+/* ========================================================================== */
+/* ==                         Media Queries (Responsive Design)            == */
+/* ========================================================================== */
+
+/* --- Tablet and Larger Screens (e.g., > 768px) --- */
+@media (min-width: 768px) {
+    main {
+        /* Switch to two-column layout */
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Make Status and Settings cards span full width */
+    .settings-card, .status-card {
+        grid-column: 1 / -1; /* Span all columns */
+    }
+}
+
+/* --- Small Mobile Screens (e.g., < 480px) --- */
+@media (max-width: 480px) {
+    :root { /* Adjust spacing for smaller screens */
+        --base-spacing: 0.8rem;
+        --card-padding: 1rem;
+    }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.2rem; }
+
+    /* Stack ON/OFF buttons vertically */
+    .button-group {
+        flex-direction: column;
+        align-items: stretch; /* Make buttons take full width */
+    }
+
+    /* Stack DL items (label above value) */
+    .numeric-readings dl, .status-card dl {
+        grid-template-columns: 1fr; /* Single column */
+        gap: 0.2em;
+    }
+     .numeric-readings dt, .status-card dt {
+         text-align: left; /* Align labels left */
+         font-size: 0.9rem;
+         padding-right: 0;
+     }
+     .numeric-readings dd, .status-card dd {
+         margin-bottom: 0.5em; /* Space below value */
+         font-size: 1rem;
+     }
+
+    .graph-readings {
+        height: 220px; /* Reduce graph height */
+    }
+
+    /* Adjust number input width in settings */
+    .settings-card .setting-item input[type="number"] {
+        width: 80px;
+    }
+
+    /* Make sync toggle label potentially wrap */
+     .sync-toggle-container label {
+         flex-basis: calc(100% - 30px); /* Allow label to take most width */
+     }
+}
+
+/* style.css END */
