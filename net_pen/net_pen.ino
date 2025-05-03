@@ -451,7 +451,7 @@ void readSensorValues() {
  */
 void manageEmergencyLightBasedOnMainLightStatus() {
   // Determine the desired state of the main light based on the last command
-  bool isMainLightSupposedToBeOn = lastReceivedControlData.targetBrightnessMain > 0;
+  bool isMainLightSupposedToBeOn = lastReceivedControlData.targetBrightnessMain > MAIN_LIGHT_OFF_THRESHOLD;
   // Determine the actual state of the main light based on sensor readings
   bool isMainLightActuallyOff = currentSensorData.actualBrightnessMain <= MAIN_LIGHT_OFF_THRESHOLD;
 

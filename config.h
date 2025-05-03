@@ -121,7 +121,7 @@ const float MAIN_LIGHT_100PCT_CURRENT_A = 0.210f;
 const float BRIGHTNESS_GAMMA_CORRECTION = 2.2f;
 
 // Approximate total time (ms) for emergency light ramp from 0% to 100% or vice-versa
-const unsigned long EMERGENCY_LIGHT_RAMP_TIME_MS = 5000;
+const unsigned long EMERGENCY_LIGHT_RAMP_TIME_MS = 30000;
 
 // Allowed difference (%) between actual and target brightness before ramping stops.
 // Prevents oscillation if ramp calculation slightly misses the exact target.
